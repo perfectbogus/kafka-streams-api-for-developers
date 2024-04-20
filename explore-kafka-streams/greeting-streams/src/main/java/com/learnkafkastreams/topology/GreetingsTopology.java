@@ -25,26 +25,31 @@ public class GreetingsTopology {
         var greetingsStream = streamsBuilder.stream(GREETINGS, Consumed.with(Serdes.String(), Serdes.String()));
         var greetingsSpanishStream = streamsBuilder
                 .stream(GREETINGS_SPANISH, Consumed.with(Serdes.String(), Serdes.String()));
+        var mergedStream = greetingsStream.merge(greetingsSpanishStream);
 
-        greetingsStream.print(Printed.<String, String>toSysOut().withLabel("greetingsStream"));
+        mergedStream.print(Printed.<String, String>toSysOut().withLabel("greetingsStream"));
 
-        var modifiedStream = greetingsStream
+
+
+
+
+        var modifiedStream = mergedStream
                 .filter((key, value) -> value.length() > 5)
-                .peek((key, value) -> {
-                    key.toUpperCase();
-                    log.info("after filter: key :{} value :{}", key, value);
-                })
+//                .peek((key, value) -> {
+//                    key.toUpperCase();
+//                    log.info("after filter: key :{} value :{}", key, value);
+//                })
                 .mapValues((readOnlyKey, value) -> value.toUpperCase())
-                .peek((key, value) -> {
-                    log.info("after mapValues: key :{} value :{}", key, value);
-                })
-                .flatMapValues((key, value) -> {
-                    var newValues = Arrays.asList(value.split(""));
-                    return newValues
-                            .stream()
-                            .map(String::toUpperCase)
-                            .collect(Collectors.toList());
-                });
+//                .peek((key, value) -> {
+//                    log.info("after mapValues: key :{} value :{}", key, value);
+//                })
+//                .flatMapValues((key, value) -> {
+//                    var newValues = Arrays.asList(value.split(""));
+//                    return newValues
+//                            .stream()
+//                            .map(String::toUpperCase)
+//                            .collect(Collectors.toList());
+//                });
 //                .flatMap((key, value) -> {
 //                    var newValues = Arrays.asList(value.split(""));
 //                    return newValues
@@ -55,6 +60,8 @@ public class GreetingsTopology {
                 //.map((key, value) -> KeyValue.pair(key.toUpperCase(), value.toUpperCase()));
                 //.filterNot((key, value) -> value.length() > 5)
                 //.mapValues((readOnlyKey, value) -> value.toUpperCase());
+                ;
+
 
         modifiedStream.print(Printed.<String, String>toSysOut().withLabel("modifiedStream"));
 

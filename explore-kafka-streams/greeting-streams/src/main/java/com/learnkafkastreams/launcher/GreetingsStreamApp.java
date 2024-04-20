@@ -1,5 +1,8 @@
 package com.learnkafkastreams.launcher;
 
+import com.learnkafkastreams.exceptionhandler.StreamsProcessorCustomErrorHandler;
+import com.learnkafkastreams.exceptionhandler.StreamsDeserializationExceptionHandler;
+import com.learnkafkastreams.exceptionhandler.StreamsSerializationExceptionHandler;
 import com.learnkafkastreams.topology.GreetingsTopology;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
@@ -24,6 +27,11 @@ public class GreetingsStreamApp {
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
         properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
         properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
+        properties.put(StreamsConfig.DEFAULT_DESERIALIZATION_EXCEPTION_HANDLER_CLASS_CONFIG,
+                StreamsDeserializationExceptionHandler.class);
+        properties.put(StreamsConfig.DEFAULT_PRODUCTION_EXCEPTION_HANDLER_CLASS_CONFIG,
+                StreamsSerializationExceptionHandler.class);
+
 
         log.info("Processors: {}",Runtime.getRuntime().availableProcessors());
         properties.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, "2");
@@ -32,6 +40,7 @@ public class GreetingsStreamApp {
 
         var greetingsTopology = GreetingsTopology.buildTopology();
         var kafkaStreams = new KafkaStreams(greetingsTopology, properties);
+        kafkaStreams.setUncaughtExceptionHandler(new StreamsProcessorCustomErrorHandler());
 
         Runtime.getRuntime().addShutdownHook(new Thread(kafkaStreams::close));
         try {

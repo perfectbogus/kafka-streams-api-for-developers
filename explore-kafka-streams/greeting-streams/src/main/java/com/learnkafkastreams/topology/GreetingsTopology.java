@@ -71,7 +71,7 @@ public class GreetingsTopology {
         );
 
         modifiedStream.to(GREETINGS_UPPERCASE
-               , Produced.with(Serdes.String(), SerdesFactory.greetingSerdes())
+               , Produced.with(Serdes.String(), SerdesFactory.greetingSerdesUsingGenerics())
         );
 
         return streamsBuilder.build();

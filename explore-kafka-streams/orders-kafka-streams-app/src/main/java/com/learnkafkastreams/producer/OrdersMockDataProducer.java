@@ -249,7 +249,7 @@ public class OrdersMockDataProducer {
                     try {
                         var ordersJSON = objectMapper.writeValueAsString(order);
                         var recordMetaData = publishMessageSync(OrdersTopology.ORDERS, null, ordersJSON);
-                        log.info("Published the order message : {} ", recordMetaData);
+                        log.info("Published the account message : {} ", recordMetaData);
                     } catch (JsonProcessingException e) {
                         log.error("JsonProcessingException : {} ", e.getMessage(), e);
                         throw new RuntimeException(e);

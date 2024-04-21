@@ -132,6 +132,6 @@ public class OrdersTopology {
 
         countWithStoreTable
                 .toStream()
-                .print(Printed.<String, TotalCountWithAddress>toSysOut().withLabel(storedName-"-bystore"));
+                .print(Printed.<String, TotalCountWithAddress>toSysOut().withLabel(storedName + "-bystore"));
     }
 }

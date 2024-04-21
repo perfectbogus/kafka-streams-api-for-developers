@@ -37,7 +37,8 @@ public class OrdersTopology {
 
         var ordersStream = streamsBuilder.stream(ORDERS,
                     Consumed.with(Serdes.String(), SerdesFactory.orderSerdes())
-                );
+                )
+                .selectKey((key, value) -> value.locationId());
 
         ordersStream.print(Printed.<String, Order >toSysOut().withLabel("orders"));
 
@@ -54,7 +55,7 @@ public class OrdersTopology {
 //                                            Produced.with(Serdes.String(), SerdesFactory.revenueSerde()));
 
                             aggregateOrdersByCount(generalOrderStream, GENERAL_ORDERS_COUNT);
-                            aggregateOrdersByRevenue(generalOrderStream, GENERAL_ORDERS_REVENUE);
+//                            aggregateOrdersByRevenue(generalOrderStream, GENERAL_ORDERS_REVENUE);
 
                         })
                 )
@@ -68,7 +69,7 @@ public class OrdersTopology {
 //                                    .to(RESTAURANT_ORDERS,
 //                                            Produced.with(Serdes.String(), SerdesFactory.revenueSerde()));
                             aggregateOrdersByCount(restaurantOrderStream, RESTAURANT_ORDERS_COUNT);
-                            aggregateOrdersByRevenue(restaurantOrderStream, RESTAURANT_ORDERS_REVENUE);
+//                            aggregateOrdersByRevenue(restaurantOrderStream, RESTAURANT_ORDERS_REVENUE);
                         })
                 );
 
@@ -101,7 +102,8 @@ public class OrdersTopology {
 
     private static void aggregateOrdersByCount(KStream<String, Order> generalOrderStream, String storedName) {
         var ordersCountPerStore = generalOrderStream
-                .map((key, value) -> KeyValue.pair(value.locationId(), value))
+//                .map((key, value) -> KeyValue.pair(value.locationId(), value))
+
                 .groupByKey(Grouped.with(Serdes.String(), SerdesFactory.orderSerdes()))
                 .count(Named.as(storedName), Materialized.as(storedName));
 

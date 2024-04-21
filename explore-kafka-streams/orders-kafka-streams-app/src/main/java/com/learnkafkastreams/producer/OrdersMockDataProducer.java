@@ -80,16 +80,16 @@ public class OrdersMockDataProducer {
         var localDateTime = LocalDateTime.now().with(modifiedTime);
 
         //With Grace Period
-        //[general_orders_revenue_window]: , TotalRevenue[locationId=store_4567, runnuingOrderCount=1, runningRevenue=27.00]
-        //[general_orders_revenue_window]: TotalRevenue[locationId=store_1234, runnuingOrderCount=1, runningRevenue=27.00]
-        //[general_orders_revenue_window]:  TotalRevenue[locationId=store_4567, runnuingOrderCount=1, runningRevenue=27.00]
-        //[general_orders_revenue_window]:  TotalRevenue[locationId=store_4567, runnuingOrderCount=1, runningRevenue=27.00]
+        //[general_orders_revenue_window]: , TotalRevenue[locationId=store_4567, runningOrderCount=1, runningRevenue=27.00]
+        //[general_orders_revenue_window]: TotalRevenue[locationId=store_1234, runningOrderCount=1, runningRevenue=27.00]
+        //[general_orders_revenue_window]:  TotalRevenue[locationId=store_4567, runningOrderCount=1, runningRevenue=27.00]
+        //[general_orders_revenue_window]:  TotalRevenue[locationId=store_4567, runningOrderCount=1, runningRevenue=27.00]
 
         //Without Grace Period
-        //[general_orders_revenue_window]: , TotalRevenue[locationId=store_4567, runnuingOrderCount=1, runningRevenue=27.00]
-        //[general_orders_revenue_window]: TotalRevenue[locationId=store_1234, runnuingOrderCount=1, runningRevenue=27.00]
-        //[general_orders_revenue_window]:  TotalRevenue[locationId=store_4567, runnuingOrderCount=1, runningRevenue=27.00]
-        //[general_orders_revenue_window]:  TotalRevenue[locationId=store_4567, runnuingOrderCount=1, runningRevenue=27.00]
+        //[general_orders_revenue_window]: , TotalRevenue[locationId=store_4567, runningOrderCount=1, runningRevenue=27.00]
+        //[general_orders_revenue_window]: TotalRevenue[locationId=store_1234, runningOrderCount=1, runningRevenue=27.00]
+        //[general_orders_revenue_window]:  TotalRevenue[locationId=store_4567, runningOrderCount=1, runningRevenue=27.00]
+        //[general_orders_revenue_window]:  TotalRevenue[locationId=store_4567, runningOrderCount=1, runningRevenue=27.00]
 
 
 

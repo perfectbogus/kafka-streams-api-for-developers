@@ -20,19 +20,19 @@ public class JoinsMockDataProducer {
 
 
         var alphabetMap = Map.of(
-                "A", "A is the first letter in English Alphabets.",
-                "B", "B is the second letter in English Alphabets."
+//                "A", "A is the first letter in English Alphabets.",
+//                "B", "B is the second letter in English Alphabets."
                 //              ,"E", "E is the fifth letter in English Alphabets."
 //                ,
-//                "A", "A is the First letter in English Alphabets.",
-//                "B", "B is the Second letter in English Alphabets."
+                "A", "A is the First letter in English Alphabets.",
+                "B", "B is the Second letter in English Alphabets."
         );
-        //publishMessages(alphabetMap, ALPHABETS);
+        publishMessages(alphabetMap, ALPHABETS);
 
         //JoinWindows
         //-4 & 4 will trigger the join
         //-6 -5 & 5, 6 wont trigger the join
-        //publishMessagesWithDelay(alphabetMap, ALPHABETS, 4);
+        //publishMessagesWithDelay(alphabetMap, ALPHABETS, 5);
 
         var alphabetAbbrevationMap = Map.of(
                 "A", "Apple",
@@ -47,7 +47,7 @@ public class JoinsMockDataProducer {
                 "B", "Baby."
 
         );
-        // publishMessages(alphabetAbbrevationMap, ALPHABETS_ABBREVATIONS);
+        //publishMessages(alphabetAbbrevationMap, ALPHABETS_ABBREVATIONS);
 
     }
 

@@ -1,5 +1,6 @@
 package com.learnkafkastreams.launcher;
 
+import com.learnkafkastreams.topology.ExploreKTableTopology;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -11,26 +12,28 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import static com.learnkafkastreams.topology.ExploreKTableTopology.WORDS;
+
 @Slf4j
 public class KTableStreamApp {
 
 
     public static void main(String[] args) {
 
-    //  var kTableTopology = ExploreKTableTopology.build();
+        var kTableTopology = ExploreKTableTopology.build();
 
         Properties config = new Properties();
         config.put(StreamsConfig.APPLICATION_ID_CONFIG, "ktable"); // consumer group
         config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
 
-        //createTopics(config, List.of(WORDS));
-         //var kafkaStreams = new KafkaStreams(kTableTopology, config);
+        createTopics(config, List.of(WORDS));
+        var kafkaStreams = new KafkaStreams(kTableTopology, config);
 
-       // Runtime.getRuntime().addShutdownHook(new Thread(kafkaStreams::close));
+        Runtime.getRuntime().addShutdownHook(new Thread(kafkaStreams::close));
 
         log.info("Starting Greeting streams");
-       // kafkaStreams.start();
+        kafkaStreams.start();
     }
 
     private static void createTopics(Properties config, List<String> greetings) {

@@ -18,14 +18,94 @@ public class ExploreWindowTopology {
     public static Topology build(){
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
+        var wordsStream = streamsBuilder.stream(
+                WINDOW_WORDS,
+                Consumed.with(Serdes.String(), Serdes.String())
+        );
+
+//        tumblingWindows(wordsStream);
+//        hoppingWindows(wordsStream);
+        slidingWindows(wordsStream);
         return streamsBuilder.build();
+    }
+
+    private static void hoppingWindows(KStream<String, String> wordsStream) {
+        Duration windowSize = Duration.ofSeconds(5);
+        var advancedBySize = Duration.ofSeconds(3);
+
+        var timeWindow = TimeWindows.ofSizeWithNoGrace(windowSize).advanceBy(advancedBySize);
+
+        var windowedAggregation = wordsStream
+                .groupByKey()
+                .windowedBy(timeWindow)
+                .count()
+                .suppress(
+                        Suppressed.untilWindowCloses(Suppressed.BufferConfig.unbounded()
+                                .shutDownWhenFull())
+                );
+
+        windowedAggregation
+                .toStream()
+                .peek((key, value) -> {
+                    log.info("hoppingWindows key: {}, value: {}", key, value);
+                    printLocalDateTimes(key, value);
+                })
+                .print(Printed.<Windowed<String>, Long>toSysOut().withLabel(""));
+
+    }
+
+    private static void tumblingWindows(KStream<String, String> wordsStream) {
+        Duration windowSize = Duration.ofSeconds(5);
+        var timeWindow = TimeWindows.ofSizeWithNoGrace(windowSize);
+
+        var windowedAggregation = wordsStream
+                .groupByKey()
+                .windowedBy(timeWindow)
+                .count()
+                .suppress(
+                        Suppressed.untilWindowCloses(Suppressed.BufferConfig.unbounded()
+                                .shutDownWhenFull())
+                );
+
+        windowedAggregation
+                .toStream()
+                .peek((key, value) -> {
+                    log.info("tumblingWindows key: {}, value: {}", key, value);
+                    printLocalDateTimes(key, value);
+                })
+                .print(Printed.<Windowed<String>, Long>toSysOut().withLabel(""));
+
+    }
+
+    private static void slidingWindows(KStream<String, String> wordsStream) {
+        Duration windowSize = Duration.ofMinutes(5);
+
+        SlidingWindows slidingWindows = SlidingWindows.ofTimeDifferenceWithNoGrace(windowSize);
+
+        var windowedAggregation = wordsStream
+                .groupByKey()
+                .windowedBy(slidingWindows)
+                .count()
+                .suppress(
+                        Suppressed.untilWindowCloses(Suppressed.BufferConfig.unbounded()
+                                .shutDownWhenFull())
+                );
+
+        windowedAggregation
+                .toStream()
+                .peek((key, value) -> {
+                    log.info("slidingWindows key: {}, value: {}", key, value);
+                    printLocalDateTimes(key, value);
+                })
+                .print(Printed.<Windowed<String>, Long>toSysOut().withLabel(""));
+
     }
 
 
     private static void printLocalDateTimes(Windowed<String> key, Long value) {
         var startTime = key.window().startTime();
         var endTime = key.window().endTime();
-
+        log.info("startTime: {} , endTime : {}", startTime, endTime);
         LocalDateTime startLDT = LocalDateTime.ofInstant(startTime, ZoneId.of(ZoneId.SHORT_IDS.get("CST")));
         LocalDateTime endLDT = LocalDateTime.ofInstant(endTime, ZoneId.of(ZoneId.SHORT_IDS.get("CST")));
         log.info("startLDT : {} , endLDT : {}, Count : {}", startLDT, endLDT, value);

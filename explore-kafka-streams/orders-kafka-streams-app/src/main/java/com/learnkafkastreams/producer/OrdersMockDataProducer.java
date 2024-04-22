@@ -26,8 +26,8 @@ public class OrdersMockDataProducer {
                 .registerModule(new JavaTimeModule())
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-        publishOrders(objectMapper, buildOrders());
-        //publishBulkOrders(objectMapper);
+        //publishOrders(objectMapper, buildOrders());
+        publishBulkOrders(objectMapper);
 
         //grace-period
 //        publishOrdersForGracePeriod(objectMapper, buildOrders());

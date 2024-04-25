@@ -27,7 +27,7 @@ public class OrdersKafkaStreamApp {
         config.put(StreamsConfig.APPLICATION_ID_CONFIG, "orders-app"); // consumer group
         config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest"); // read only the new messages
-        config.put(StreamsConfig.DEFAULT_TIMESTAMP_EXTRACTOR_CLASS_CONFIG, OrderTimeStampExtractor.class);
+        //config.put(StreamsConfig.DEFAULT_TIMESTAMP_EXTRACTOR_CLASS_CONFIG, OrderTimeStampExtractor.class);
 
         createTopics(config, List.of(OrdersTopology.STORES, OrdersTopology.ORDERS, OrdersTopology.GENERAL_ORDERS, OrdersTopology.RESTAURANT_ORDERS));
 

@@ -43,9 +43,13 @@ public class GreetingStreamsTopology {
         );
 
         KStream<String, Greeting> modifiedStream = greetingsStream
-                .mapValues((readOnlyKey, value) ->
+                .mapValues((readOnlyKey, value) -> {
 //                    value.toUpperCase()
-                    new Greeting(value.message().toUpperCase(), value.timestamp())
+                    if (value.message().equals("Error")) {
+//                      throw new IllegalStateException("Error Occurred");
+                    }
+                    return  new Greeting(value.message().toUpperCase(), value.timestamp());
+                  }
                 );
 
 

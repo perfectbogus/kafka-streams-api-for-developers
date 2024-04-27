@@ -50,6 +50,9 @@ curl -i http://localhost:8080/v1/orders/revenue/restaurant_orders
 
 curl -i -X POST http://localhost:8080/v1/orders/revenue/restaurant_orders
 
+Assigment:
+curl -i http://localhost:8080/v1/orders/revenue/general_orders?location_id=store_1234
+
 ===============================
 Retrieve Revenue for All Types:|
 ===============================

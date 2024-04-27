@@ -27,8 +27,8 @@ public class OrdersMockDataProducer {
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
 
-        publishOrders(objectMapper, buildOrders());
-        //publishBulkOrders(objectMapper);
+//        publishOrders(objectMapper, buildOrders());
+        publishBulkOrders(objectMapper);
 
         /**
          * To test grace period.

@@ -13,7 +13,7 @@ spring:
   kafka:
     streams:
       bootstrap-servers: localhost:9092
-      application-id: orders-kafka-streams
+      application-id: orders-kafka-springboot
     properties:
       default:
         key:

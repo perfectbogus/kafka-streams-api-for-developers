@@ -6,7 +6,7 @@
  * ====================================================================================
  */
 
-package com.learnkafkastreams.topology;
+package com.learnkafkastreams.controller;
 
 import com.learnkafkastreams.domain.AllOrdersCountPerStoreDTO;
 import com.learnkafkastreams.service.OrderService;
